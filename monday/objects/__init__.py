@@ -40,6 +40,28 @@ class Workspace(MondayObject):
     def client(self):
         return super().client.workspaces
 
+    def __init__(
+            self,
+            id: int,
+            name: str = None,
+            kind: str = None,
+            description: str = None,
+            created_at: str = None,
+            state: str = None
+    ):
+        super().__init__(id)
+        self.name = name
+        self.kind = kind
+        self.description = description
+        self.created_at = created_at
+        self.state = state
+
+    @classmethod
+    def get_workspaces(cls):
+        response = cls.client.get_workspaces()
+        workspaces = response['data']['workspaces']
+        return [cls(**workspace) for workspace in workspaces]
+
 
 class Item(MondayObject):
     @classproperty
